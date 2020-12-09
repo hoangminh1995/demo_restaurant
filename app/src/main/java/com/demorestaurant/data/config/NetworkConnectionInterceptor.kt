@@ -1,4 +1,4 @@
-package com.demorestaurant.data
+package com.demorestaurant.data.config
 
 import android.content.Context
 import com.demorestaurant.R
@@ -12,7 +12,9 @@ class NetworkConnectionInterceptor(private val mContext: Context) : Interceptor 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         if (!InternetUtil.isConnectedToInternet(mContext)) {
-            throw NoConnectivityException(mContext.getString(R.string.offline_msg))
+            throw NoConnectivityException(
+                mContext.getString(R.string.offline_msg)
+            )
         }
         val builder = chain.request().newBuilder()
         return chain.proceed(builder.build())

@@ -1,7 +1,7 @@
 package com.demorestaurant.ui.listrestaurant
 
 import androidx.lifecycle.MutableLiveData
-import com.demorestaurant.data.NetworkConnectionInterceptor
+import com.demorestaurant.data.config.NetworkConnectionInterceptor
 import com.demorestaurant.data.remote.RestaurantResponse
 import com.demorestaurant.repository.RestaurantRepository
 import com.demorestaurant.ui.base.BaseViewModel

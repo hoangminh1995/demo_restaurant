@@ -3,7 +3,7 @@ package com.demorestaurant.di.module
 import android.app.Application
 import com.demorestaurant.BuildConfig
 import com.demorestaurant.data.MockRetrofitInterceptor
-import com.demorestaurant.data.NetworkConnectionInterceptor
+import com.demorestaurant.data.config.NetworkConnectionInterceptor
 import com.demorestaurant.data.RestaurantApi
 import com.demorestaurant.di.rx.AppSchedulerProvider
 import com.demorestaurant.di.rx.SchedulerProvider
@@ -60,7 +60,9 @@ class ApiModule {
     @Provides
     @Singleton
     fun provideNetWorkConnectionInterceptor(application: Application): NetworkConnectionInterceptor {
-        return NetworkConnectionInterceptor(application)
+        return NetworkConnectionInterceptor(
+            application
+        )
     }
 
     @Provides

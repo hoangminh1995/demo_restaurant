@@ -7,10 +7,10 @@ import com.demorestaurant.data.type.OperationState
 
 
 @BindingAdapter("operationState")
-fun bindOperationState(view: TextView, operationState: OperationState) {
+fun bindDayWorking(view: TextView, operationState: OperationState) {
     when (operationState) {
-        OperationState.CLOSED -> view.text = view.context.getString(R.string.closed)
-        OperationState.OPEN -> view.text = view.context.getString(R.string.open)
+        OperationState.CLOSED -> view.text = view.context.getString(R.string.operation_state_closed)
+        OperationState.OPEN -> view.text = view.context.getString(R.string.operation_state_open)
     }
 }
 

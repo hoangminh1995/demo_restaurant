@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.demorestaurant.R
 import com.demorestaurant.data.remote.RestaurantResponse
 import com.demorestaurant.databinding.ActivityListRestaurantBinding
@@ -16,42 +15,45 @@ import com.demorestaurant.ui.listrestaurant.adapter.RestaurantAdapter
 import com.demorestaurant.utils.AppConstant
 import com.demorestaurant.utils.extension.launchActivity
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.activity_list_restaurant.*
 import javax.inject.Inject
 
-class ListRestaurantActivity : DaggerAppCompatActivity(), RestaurantAdapter.CallbackListRestaurant,
-    SwipeRefreshLayout.OnRefreshListener {
+class ListRestaurantActivity : DaggerAppCompatActivity(), RestaurantAdapter.CallbackListRestaurant {
 
     @Inject
     lateinit var factory: ViewModelProviderFactory
 
     private lateinit var mViewModel: ListRestaurantViewModel
 
-    private lateinit var mListRestaurantAdapter: RestaurantAdapter
+    private lateinit var mRestaurantAdapter: RestaurantAdapter
+
+    private lateinit var mBinding: ActivityListRestaurantBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityListRestaurantBinding>(
-            this
-            , R.layout.activity_list_restaurant
-        )
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_list_restaurant)
         mViewModel = ViewModelProvider(this, factory).get(ListRestaurantViewModel::class.java)
+        subscribeLiveData()
+        setUpUI()
+        mViewModel.getListRestaurant()
+    }
 
-        binding.apply {
-            mListRestaurantAdapter = RestaurantAdapter(this@ListRestaurantActivity)
-            rcvListRestaurant.adapter = mListRestaurantAdapter
-            setSupportActionBar(binding.toolbar)
-            swipeLayout.setOnRefreshListener(this@ListRestaurantActivity)
+    private fun setUpUI() {
+        mBinding.apply {
+            mRestaurantAdapter = RestaurantAdapter(this@ListRestaurantActivity)
+            rcvListRestaurant.adapter = mRestaurantAdapter
+            setSupportActionBar(toolbar)
+            swipeLayout.setOnRefreshListener {
+                mViewModel.getListRestaurant()
+            }
         }
 
-        mViewModel.getListRestaurant()
-        subscribeLiveData()
     }
 
     private fun subscribeLiveData() {
         mViewModel.mListRestaurant.observe(this, Observer { listRestaurantResponse ->
-            mListRestaurantAdapter.submitList(listRestaurantResponse)
+            mRestaurantAdapter.submitList(listRestaurantResponse)
         })
+
         mViewModel.mCommand.observe(this, Observer {
             handleCommand(it)
         })
@@ -59,9 +61,13 @@ class ListRestaurantActivity : DaggerAppCompatActivity(), RestaurantAdapter.Call
 
     private fun handleCommand(command: Command) {
         when (command) {
-            is Command.OfflineDialog -> Toast.makeText(this, getString(R.string.please_check_internet), Toast.LENGTH_LONG).show()
-            is Command.HideLoadingDialog -> swipeLayout.isRefreshing = false
-            is Command.ShowLoadingDialog -> swipeLayout.isRefreshing = true
+            is Command.OfflineDialog -> Toast.makeText(
+                this,
+                getString(R.string.please_check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+            is Command.HideLoadingDialog -> mBinding.swipeLayout.isRefreshing = false
+            is Command.ShowLoadingDialog -> mBinding.swipeLayout.isRefreshing = true
         }
     }
 
@@ -70,10 +76,5 @@ class ListRestaurantActivity : DaggerAppCompatActivity(), RestaurantAdapter.Call
             putExtra(AppConstant.RESTAURANT, item)
         }
     }
-
-    override fun onRefresh() {
-        mViewModel.getListRestaurant()
-    }
-
 
 }

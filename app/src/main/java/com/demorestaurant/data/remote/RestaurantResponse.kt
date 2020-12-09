@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 data class RestaurantResponse(
     @SerializedName("id")
     @Expose
-    val id: String,
+    val id: Long,
     @SerializedName("name")
     @Expose
     val name: String,

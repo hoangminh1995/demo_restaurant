@@ -27,6 +27,97 @@ class MockRetrofitInterceptor : Interceptor {
                 "    \"operation_state\":\"OPEN\"\n" +
                 "  }\n" +
                 "]"
+
+        const val JSON_DETAIL_RESTAURANT_1="[\n" +
+                "  {\n" +
+                "    \"day\": \"MON\",\n" +
+                "    \"time_work\": \"11:30 am - 9:00 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"TUE\",\n" +
+                "    \"time_work\": \"11:30 am - 9:00 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"WED\",\n" +
+                "    \"time_work\": \"11:30 am - 9:00 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"THU\",\n" +
+                "    \"time_work\": \"11:30 am - 9:00 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"FRI\",\n" +
+                "    \"time_work\": \"11:30 am - 9:30 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"SAT\",\n" +
+                "    \"time_work\": \"11:30 am - 9:30 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"SUN\",\n" +
+                "    \"time_work\": \"11:30 am - 9:30 pm\"\n" +
+                "  }\n" +
+                "]"
+        const val JSON_DETAIL_RESTAURANT_2="[\n" +
+                "  {\n" +
+                "    \"day\": \"MON\",\n" +
+                "    \"time_work\": \"11:30 am - 9:00 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"TUE\",\n" +
+                "    \"time_work\": \"11:30 am - 9:00 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"WED\",\n" +
+                "    \"time_work\": null\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"THU\",\n" +
+                "    \"time_work\": \"11:30 am - 9:00 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"FRI\",\n" +
+                "    \"time_work\": \"11:30 am - 9:30 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"SAT\",\n" +
+                "    \"time_work\": \"11:30 am - 9:30 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"SUN\",\n" +
+                "    \"time_work\": \"11:30 am - 9:30 pm\"\n" +
+                "  }\n" +
+                "]"
+        const val JSON_DETAIL_RESTAURANT_3="[\n" +
+                "  {\n" +
+                "    \"day\": \"MON\",\n" +
+                "    \"time_work\": \"11:30 am - 9:00 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"TUE\",\n" +
+                "    \"time_work\": \"11:30 am - 9:00 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"WED\",\n" +
+                "    \"time_work\": \"11:30 am - 9:00 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"THU\",\n" +
+                "    \"time_work\": \"11:30 am - 9:00 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"FRI\",\n" +
+                "    \"time_work\": \"11:30 am - 9:30 pm\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"SAT\",\n" +
+                "    \"time_work\": null\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"day\": \"SUN\",\n" +
+                "    \"time_work\": null\n" +
+                "  }\n" +
+                "]"
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -34,8 +125,11 @@ class MockRetrofitInterceptor : Interceptor {
             val uri = chain.request().url.toUri().toString()
             val responseString = when {
                 uri.endsWith("restaurant") -> JSON_LIST_RESTAURANT
+                uri.endsWith("restaurant_id=1") -> JSON_DETAIL_RESTAURANT_1
+                uri.endsWith("restaurant_id=2") -> JSON_DETAIL_RESTAURANT_2
+                uri.endsWith("restaurant_id=3") -> JSON_DETAIL_RESTAURANT_3
                 else -> {
-                    "detail_restaurant"
+                    ""
                 }
             }
 

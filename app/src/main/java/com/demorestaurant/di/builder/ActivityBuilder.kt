@@ -10,10 +10,10 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuilder {
 
     @ActivityScope
-    @ContributesAndroidInjector()
+    @ContributesAndroidInjector
     abstract fun bindMainActivity(): ListRestaurantActivity
 
     @ActivityScope
-    @ContributesAndroidInjector()
+    @ContributesAndroidInjector
     abstract fun bindDetailRestaurantActivity(): DetailRestaurantActivity
 }
