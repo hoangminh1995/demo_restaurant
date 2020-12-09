@@ -25,13 +25,7 @@ android {
     buildTypes {
         debug {
             testCoverageEnabled true
-            buildConfigField "String", "ENDPOINT_URL", "\"https://asd\""
-        }
-        staging {
-            buildConfigField "String", "ENDPOINT_URL", "\"https://\""
-        }
-        release {
-            buildConfigField "String", "ENDPOINT_URL", "\"https://\""
+            buildConfigField "String", "BASE_URL", "\"https://api.themoviedb.org/\""
         }
     }
 
@@ -64,8 +58,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompat"
     implementation "com.google.android.material:material:$material"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout"
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     // retrofit
     implementation "com.google.code.gson:gson:$gson"

@@ -22,4 +22,12 @@
     <style name="Theme.DemoRestaurant.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.DemoRestaurant.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="SelectorClick">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
+
 </resources>

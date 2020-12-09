@@ -2,13 +2,14 @@ package com.demorestaurant.di.module
 
 import android.app.Application
 import com.demorestaurant.BuildConfig
+import com.demorestaurant.data.MockRetrofitInterceptor
 import com.demorestaurant.data.NetworkConnectionInterceptor
 import com.demorestaurant.data.RestaurantApi
+import com.demorestaurant.di.rx.AppSchedulerProvider
+import com.demorestaurant.di.rx.SchedulerProvider
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import com.demorestaurant.di.rx.AppSchedulerProvider
-import com.demorestaurant.di.rx.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -52,36 +53,49 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideNetworkConnectionInterceptor(application: Application): NetworkConnectionInterceptor {
+    fun provideMockRetrofitInterceptor(): MockRetrofitInterceptor {
+        return MockRetrofitInterceptor()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetWorkConnectionInterceptor(application: Application): NetworkConnectionInterceptor {
         return NetworkConnectionInterceptor(application)
     }
 
     @Provides
     @Singleton
-    fun provideHttpClientMain(networkConnectionInterceptor: NetworkConnectionInterceptor
-                              , loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideHttpClientMain(
+        loggingInterceptor: HttpLoggingInterceptor
+        , networkConnectionInterceptor: NetworkConnectionInterceptor
+        , mockRetrofitInterceptor: MockRetrofitInterceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder()
-                .readTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(networkConnectionInterceptor)
-                .addInterceptor(loggingInterceptor)
-                .build()
+            .readTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(networkConnectionInterceptor)
+            .addInterceptor(mockRetrofitInterceptor)
+            .build()
     }
 
     @Provides
     @Singleton
-    fun provideRetrofitMain(okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory
-                            , callAdapterFactory: RxJava2CallAdapterFactory): Retrofit {
+    fun provideRetrofitMain(
+        okHttpClient: OkHttpClient, gsonConverterFactory: GsonConverterFactory
+        , callAdapterFactory: RxJava2CallAdapterFactory
+    ): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(BuildConfig.ENDPOINT_URL)
-                .client(okHttpClient)
-                .addConverterFactory(gsonConverterFactory)
-                .addCallAdapterFactory(callAdapterFactory)
-                .build()
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(gsonConverterFactory)
+            .addCallAdapterFactory(callAdapterFactory)
+            .build()
     }
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): RestaurantApi = retrofit.create(RestaurantApi::class.java)
+    fun provideApiService(retrofit: Retrofit): RestaurantApi =
+        retrofit.create(RestaurantApi::class.java)
 
     @Provides
     fun provideCompositeDisposable(): CompositeDisposable {

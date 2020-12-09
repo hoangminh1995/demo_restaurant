@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.detailrestaurant.DetailRestaurantActivity">
+
+    <data>
+
+        <variable
+            name="restaurant"
+            type="com.demorestaurant.data.remote.RestaurantResponse" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        style="@style/SelectorClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:padding="@dimen/padding_normal"
+        app:cardCornerRadius="@dimen/card_corner_normal"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
+
+        <ImageView
+            android:id="@+id/imgRestaurant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            app:imageFromUrl="@{restaurant.image}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/dimly"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_small">
+
+            <TextView
+                android:id="@+id/tvRestaurantName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="@{restaurant.name}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold"
+                tools:text="Pullman" />
+
+            <TextView
+                android:id="@+id/tvOperationState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/margin_small"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_small"
+                app:operationState="@{restaurant.operationState}"
+                tools:text="Closed" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

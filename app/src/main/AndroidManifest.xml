@@ -3,6 +3,7 @@
     package="com.demorestaurant">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".RestaurantApplication"
@@ -13,14 +14,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DemoRestaurant">
         <activity
-            android:name=".ui.MainActivity"
-            android:label="@string/app_name"
+            android:name=".ui.listrestaurant.ListRestaurantActivity"
+            android:label="@string/list_restaurant"
             android:theme="@style/Theme.DemoRestaurant.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.detailrestaurant.DetailRestaurantActivity"
+            android:theme="@style/Theme.DemoRestaurant.NoActionBar">
+
         </activity>
     </application>
 
