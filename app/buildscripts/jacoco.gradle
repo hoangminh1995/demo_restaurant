@@ -51,31 +51,7 @@ project.afterEvaluate {
                         excludes: excludes
                 )
 
-                classDirectories.from = files([javaClasses], [kotlinClasses]
-                ).filter({ file ->
-                    file.name.contains('BaseViewModel') ||
-                            file.name.contains('BaseAuthViewModel') ||
-                            file.name.contains('LoginViewModel') ||
-                            // send event
-                            file.name.contains('BaseSendEventViewModel') ||
-                            file.name.contains('MainViewModel') ||
-                            file.name.contains('DepartureViewModel') ||
-                            file.name.contains('ArrivalViewModel') ||
-                            file.name.contains('PortActivityViewModel') ||
-                            file.name.contains('OffPortLimitViewModel') ||
-                            file.name.contains('DropAnchorViewModel') ||
-                            file.name.contains('StartDriftingViewModel') ||
-                            file.name.contains('FirstPilotViewModel') ||
-                            file.name.contains('SelectPurposeViewModel') ||
-                            file.name.contains('AnchorAweighViewModel') ||
-                            file.name.contains('CompleteDriftingViewModel') ||
-                            file.name.contains('SelectPurposeViewModel') ||
-                            file.name.contains('SelectPortViewModel') ||
-                            // survey
-                            file.name.contains('BaseSurveyViewModel') ||
-                            file.name.contains('ListSurveyViewModel') ||
-                            file.name.contains('ListSurveyQuestionViewModel')
-                })
+                classDirectories.from = files([javaClasses], [kotlinClasses])
 
                 def coverageSourceDirs = [
                         "src/main/java",
